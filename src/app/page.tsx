@@ -76,8 +76,12 @@ export default function Home(): JSX.Element {
       expiration_date: { month: details.month, year: details.year },
       cvv: details.cvv,
     };
-    areAllInputsvalid(detailsValidity) &&
-      console.log("Submitted successfully. Your details are:", userDetails);
+    areAllInputsvalid(detailsValidity)
+      ? console.log("Submitted successfully. Your details are:", userDetails)
+      : console.log(
+          "Can't be submitted. Your details are invalid. Refer details validity below:",
+          detailsValidity
+        );
     // e.preventDefault;
   };
 
