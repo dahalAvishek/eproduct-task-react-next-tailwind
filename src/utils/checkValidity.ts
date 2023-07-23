@@ -13,9 +13,8 @@ const checkValidity = (
       [inputName]: true,
     });
   } else if (inputName === "card_holder") {
-    `1   d `;
     const numberValue = parseInt(inputValue, 10);
-    !isNaN(numberValue) && inputValue.length === 16
+    !isNaN(numberValue) && inputValue.length >= 16
       ? setDetailsValidity({
           ...detailsValidity,
           [inputName]: true,
@@ -26,7 +25,7 @@ const checkValidity = (
         });
   } else if (inputName === "cvv") {
     const numberValue = parseInt(inputValue, 10);
-    !isNaN(numberValue) && inputValue.length === 3
+    !isNaN(numberValue) && inputValue.length >= 3
       ? setDetailsValidity({
           ...detailsValidity,
           [inputName]: true,
@@ -48,7 +47,7 @@ const checkValidity = (
         });
   } else if (inputName === "year") {
     const numberValue = parseInt(inputValue, 10);
-    !isNaN(numberValue) && numberValue > 0 && numberValue <= 99
+    !isNaN(numberValue) && numberValue >= 0 && numberValue <= 99
       ? setDetailsValidity({
           ...detailsValidity,
           [inputName]: true,

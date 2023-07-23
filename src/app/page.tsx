@@ -1,23 +1,17 @@
 "use client";
 
-import DateInput from "@/components/DateInput";
 import TextInput from "@/components/TextInput";
 import product_list, { Product } from "@/module/product_module";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import checkValidity from "@/utils/checkValidity";
 
-// export interface DateI {
-//   month: string | undefined;
-//   year: string | undefined;
-// }
-
 export interface Details {
   user_name: string;
-  card_holder: string;
-  month: string;
-  year: string;
-  cvv: string;
+  card_holder: number | undefined;
+  month: number | undefined;
+  year: number | undefined;
+  cvv: number | undefined;
 }
 
 export interface DetailsValidity {
@@ -29,14 +23,20 @@ export interface DetailsValidity {
   [key: string]: Boolean;
 }
 
+interface MaxLength {
+  card_holder: number;
+  cvv: number;
+  [key: string]: number;
+}
+
 const product: Product = product_list[0];
 export default function Home(): JSX.Element {
   const [details, setDetails] = useState<Details>({
     user_name: "",
-    card_holder: "",
-    month: "",
-    year: "",
-    cvv: "",
+    card_holder: undefined,
+    month: undefined,
+    year: undefined,
+    cvv: undefined,
   });
   const [detailsValidity, setDetailsValidity] = useState<DetailsValidity>({
     user_name: false,
@@ -59,10 +59,23 @@ export default function Home(): JSX.Element {
     e: ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
-    setDetails({
-      ...details,
-      [name]: value,
-    });
+    const maxLength: MaxLength = {
+      card_holder: 16,
+      year: 2,
+      month: 2,
+      cvv: 3,
+    };
+    const valueString = value.toString();
+    name !== "user_name"
+      ? valueString.length <= maxLength[name] &&
+        setDetails({
+          ...details,
+          [name]: value,
+        })
+      : setDetails({
+          ...details,
+          [name]: value,
+        });
     checkValidity(value, name, detailsValidity, setDetailsValidity);
   };
 
@@ -82,7 +95,6 @@ export default function Home(): JSX.Element {
           "Can't be submitted. Your details are invalid. Refer details validity below:",
           detailsValidity
         );
-    // e.preventDefault;
   };
 
   return (
@@ -110,7 +122,6 @@ export default function Home(): JSX.Element {
                 value={details.user_name}
                 placeHolder="Your Full Name"
                 handleTextChange={handleTextChange}
-                // handleValidity={handleValidity}
               />
               {details.user_name.length !== 0 && !detailsValidity.user_name && (
                 <p className="text-xs text-red-600">invalid input</p>
@@ -123,9 +134,8 @@ export default function Home(): JSX.Element {
                 value={details.card_holder}
                 placeHolder="Your Card Number"
                 handleTextChange={handleTextChange}
-                // handleValidity={handleValidity}
               />
-              {details.card_holder.length !== 0 &&
+              {details.card_holder !== undefined &&
                 !detailsValidity.card_holder && (
                   <p className="text-xs text-red-600">invalid input</p>
                 )}
@@ -140,7 +150,6 @@ export default function Home(): JSX.Element {
                     value={details.month}
                     placeHolder="MM"
                     handleTextChange={handleTextChange}
-                    // handleValidity={handleValidity}
                     inputWidth="32px"
                   />
                   <span className="text-2xl absolute left-8 -bottom-1 mx-1 text-yellow-500">
@@ -151,11 +160,10 @@ export default function Home(): JSX.Element {
                     value={details.year}
                     placeHolder="YY"
                     handleTextChange={handleTextChange}
-                    // handleValidity={handleValidity}
                     inputWidth="32px"
                   />
                 </div>
-                {(details.month.length !== 0 || details.year.length !== 0) &&
+                {(details.month !== undefined || details.year !== undefined) &&
                   (!detailsValidity.month || !detailsValidity.year) && (
                     <p className="text-xs text-red-600">invalid input</p>
                   )}
@@ -167,10 +175,9 @@ export default function Home(): JSX.Element {
                   value={details.cvv}
                   placeHolder="***"
                   handleTextChange={handleTextChange}
-                  // handleValidity={handleValidity}
                   inputWidth="67px"
                 />
-                {details.cvv.length !== 0 && !detailsValidity.cvv && (
+                {details.cvv !== undefined && !detailsValidity.cvv && (
                   <p className="text-xs text-red-600">invalid input</p>
                 )}
               </div>
