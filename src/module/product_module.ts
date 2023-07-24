@@ -4,7 +4,7 @@ import productImage from "../../public/product-image.png";
 export interface Product {
   brand: string;
   model: string;
-  price: string;
+  price: number;
   image: StaticImageData;
 }
 
@@ -12,7 +12,7 @@ const product_list: Product[] = [
   {
     brand: "JBL",
     model: "90X",
-    price: "$100",
+    price: 100,
     image: productImage,
   },
 ];
