@@ -1,8 +1,7 @@
 "use client";
 
-import TextInput from "@/components/TextInput";
 import product_list, { Product } from "@/module/product_module";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import Image from "next/image";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -12,21 +11,18 @@ const DetailsSchema = z.object({
   user_name: z
     .string()
     .max(30, { message: "Name must be less than 30 letters" }),
-  card_holder: z.string().refine((value) => /^\d+$/.test(value), {
-    message: "Age must be number",
-  }),
+  card_holder: z
+    .string()
+    .refine((value) => value.length === 16, "Must be 16 digits"),
   year: z.coerce
     .number()
     .gt(0, { message: "Provide year between 0-99" })
-    .lte(100, { message: "Provide year between 0-99 " }),
+    .lt(100, { message: "Provide year between 0-99 " }),
   month: z.coerce
     .number()
     .gt(0, { message: "Provide month greater than 0" })
     .lte(12, { message: "Provide month less than or equat to 12" }),
-  cvv: z
-    .string()
-    .transform((value) => value.replace(/\D/gu, ""))
-    .refine((value) => value.length === 3, "invalid"),
+  cvv: z.string().refine((value) => value.length === 3, "invalid"),
 });
 
 type DetailsSchemaType = z.infer<typeof DetailsSchema>;
@@ -34,32 +30,17 @@ type DetailsSchemaType = z.infer<typeof DetailsSchema>;
 const product: Product = product_list[0];
 export default function Home(): JSX.Element {
   const {
-    control,
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-    setValue,
   } = useForm<DetailsSchemaType>({ resolver: zodResolver(DetailsSchema) });
   //
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(value.slice(-1));
     const input = e.target.value;
     const numericInput = input.replace(/\D/g, "");
     e.target.value = numericInput;
   };
-
-  // const {
-  //   field: { ref, ...inputProps },
-  // } = useController({
-  //   control,
-  //   name: "card_holder", // Replace 'myInput' with your actual input name
-  //   defaultValue: undefined,
-  //   rules: {
-  //     maxLength: 16, // Replace '10' with your desired maximum length
-  //   },
-  // });
   const onSubmit: SubmitHandler<DetailsSchemaType> = (data) =>
     console.log(data);
 
@@ -177,94 +158,3 @@ export default function Home(): JSX.Element {
     </main>
   );
 }
-
-// export interface Details {
-//   user_name: string;
-//   card_holder: number | undefined;
-//   month: number | undefined;
-//   year: number | undefined;
-//   cvv: number | undefined;
-// }
-
-// export interface DetailsValidity {
-//   user_name: Boolean;
-//   card_holder: Boolean;
-//   year: Boolean;
-//   month: Boolean;
-//   cvv: Boolean;
-//   [key: string]: Boolean;
-// }
-
-// interface MaxLength {
-//   card_holder: number;
-//   cvv: number;
-//   [key: string]: number;
-// }
-
-// const [details, setDetails] = useState<Details>({
-//   user_name: "",
-//   card_holder: undefined,
-//   month: undefined,
-//   year: undefined,
-//   cvv: undefined,
-// });
-// const [detailsValidity, setDetailsValidity] = useState<DetailsValidity>({
-//   user_name: false,
-//   card_holder: false,
-//   year: false,
-//   month: false,
-//   cvv: false,
-// });
-
-// const areAllInputsvalid: (obj: DetailsValidity) => boolean = (
-//   obj: DetailsValidity
-// ) => {
-//   for (const item in obj) {
-//     if (!obj[item]) {
-//       return false;
-//     }
-//   }
-//   return true;
-// };
-
-// const handleTextChange: (e: ChangeEvent<HTMLInputElement>) => void = (
-//   e: ChangeEvent<HTMLInputElement>
-// ) => {
-//   const { name, value } = e.target;
-//   const maxLength: MaxLength = {
-//     card_holder: 16,
-//     year: 2,
-//     month: 2,
-//     cvv: 3,
-//   };
-//   const valueString: string = value.toString();
-//   name !== "user_name"
-//     ? valueString.length <= maxLength[name] &&
-//       setDetails({
-//         ...details,
-//         [name]: value,
-//       })
-//     : setDetails({
-//         ...details,
-//         [name]: value,
-//       });
-//   checkValidity(value, name, detailsValidity, setDetailsValidity);
-// };
-
-// const handleSubmit: (e: FormEvent<HTMLFormElement>) => void = (
-//   e: FormEvent<HTMLFormElement>
-// ) => {
-//   e.preventDefault();
-//   const userDetails = {
-//     name: details.user_name,
-//     card_holder: details.card_holder,
-//     expiration_date: { month: details.month, year: details.year },
-//     cvv: details.cvv,
-//   };
-//   areAllInputsvalid(detailsValidity)
-//     ? console.log("Submitted successfully. Your details are:", userDetails)
-//     : console.log(
-//         "Can't be submitted. Your details are invalid. Refer details validity below:",
-//         detailsValidity
-//       );
-// };
