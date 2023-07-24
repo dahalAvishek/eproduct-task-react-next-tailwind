@@ -1,7 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 import { DetailsValidity } from "@/app/page";
 
-const checkValidity = (
+const checkValidity: (
+  inputValue: string,
+  inputName: string,
+  detailsValidity: DetailsValidity,
+  setDetailsValidity: Dispatch<SetStateAction<DetailsValidity>>
+) => void = (
   inputValue: string,
   inputName: string,
   detailsValidity: DetailsValidity,
