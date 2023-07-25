@@ -1,12 +1,18 @@
 import React, { Dispatch, SetStateAction } from "react";
 
+type BackgorundColor = string;
+
 export interface Props {
-  background?: string;
+  backgroundColor?: string | undefined;
   addedItems: number;
   setAddedItems: Dispatch<SetStateAction<number>>;
 }
 
-const AddRemoveItem = ({ background, addedItems, setAddedItems }: Props) => {
+const AddRemoveItem = ({
+  backgroundColor,
+  addedItems,
+  setAddedItems,
+}: Props) => {
   const handleAdd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setAddedItems((prevAddedItems) => prevAddedItems + 1);
   };
@@ -19,14 +25,16 @@ const AddRemoveItem = ({ background, addedItems, setAddedItems }: Props) => {
     <div>
       <button
         onClick={(e) => handleSubstract(e)}
-        className="bg-slate-50 w-5 h-5 text-sm rounded-sm text-center"
+        className=" w-5 h-5 text-sm rounded-sm text-center"
+        style={{ backgroundColor: backgroundColor }}
       >
         -
       </button>
       <p className="inline mx-2">{addedItems}</p>
       <button
         onClick={(e) => handleAdd(e)}
-        className="bg-slate-50 w-5 h-5 text-sm rounded-sm text-center"
+        className=" w-5 h-5 text-sm rounded-sm text-center"
+        style={{ backgroundColor: backgroundColor }}
       >
         +
       </button>

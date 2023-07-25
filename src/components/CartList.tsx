@@ -24,9 +24,9 @@ const CartList = ({ addedItems, setAddedItems }: Props) => {
           x
         </button>
         <AddRemoveItem
-          background={"white"}
           addedItems={addedItems}
           setAddedItems={setAddedItems}
+          backgroundColor="#f8fafc"
         />
       </div>
     </div>

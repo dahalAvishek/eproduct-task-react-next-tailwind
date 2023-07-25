@@ -33,7 +33,7 @@ export default function Home(): JSX.Element {
           <div className="absolute bottom-2 md:bottom-0 right-8 text-right">
             <ProductDetails addedItems={addedItems} />
             <AddRemoveItem
-              background={"white"}
+              backgroundColor={"#cbd5e1"}
               addedItems={addedItems}
               setAddedItems={setAddedItems}
             />
