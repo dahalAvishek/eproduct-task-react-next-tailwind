@@ -12,6 +12,7 @@ interface Props {
     year: number;
     month: number;
     cvv: string;
+    quantity: number;
   }>;
 }
 
@@ -31,6 +32,7 @@ const DetailsSchema = z.object({
     .gt(0, { message: "Provide month greater than 0" })
     .lte(12, { message: "Provide month less than or equat to 12" }),
   cvv: z.string().refine((value) => value.length === 3, "invalid"),
+  quantity: z.coerce.number().default(1),
 });
 
 export type DetailsSchemaType = z.infer<typeof DetailsSchema>;
@@ -140,7 +142,7 @@ const PaymentForm = ({ onSubmit }: Props) => {
         type="submit"
         className="bg-yellow-500 py-2 w-64 self-center text-white rounded-md hover:shadow-xl"
       >
-        BUY NOW
+        ADD TO CART
       </button>
     </form>
   );

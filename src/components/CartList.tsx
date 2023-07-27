@@ -5,28 +5,43 @@ import AddRemoveItem from "./AddRemoveItem";
 import ProductDetails from "./ProductDetails";
 
 interface Props {
-  addedItems: number;
-  setAddedItems: Dispatch<SetStateAction<number>>;
+  quantityInCart?: number | undefined;
+  handleAddToStorage: () => void;
+  handleAdd: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    quantity: number | undefined
+  ) => void;
+  handleSubstract: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    quantity: number | undefined
+  ) => void;
 }
 
-const CartList = ({ addedItems, setAddedItems }: Props) => {
+const CartList = ({
+  quantityInCart,
+  handleAddToStorage,
+  handleAdd,
+  handleSubstract,
+}: Props) => {
   return (
-    <div className="bg-slate-300 rounded-md p-2 flex gap-2 justify-between shadow-md">
+    <div className="bg-slate-300 rounded-md p-2 flex gap-2  shadow-md self-start">
       <Image
-        src={product.image}
+        src={product.image[0]}
         width={80}
         alt="product image"
         className=" bg-slate-50 rounded-md"
       />
-      <ProductDetails addedItems={addedItems} />
+      <ProductDetails itemsQty={quantityInCart} />
       <div className="flex flex-col justify-between">
         <button className="bg-red-600 w-6 self-end h-6 rounded-full  p-0 text-sm text-white">
           x
         </button>
         <AddRemoveItem
-          addedItems={addedItems}
-          setAddedItems={setAddedItems}
-          backgroundColor="#f8fafc"
+          backgroundColor={"#f8fafc"}
+          qty={quantityInCart}
+          handleAdd={handleAdd}
+          handleSubstract={handleSubstract}
+          handleAddToStorage={handleAddToStorage}
         />
       </div>
     </div>

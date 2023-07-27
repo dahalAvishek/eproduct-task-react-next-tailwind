@@ -2,16 +2,18 @@ import { product } from "@/app/page";
 import React from "react";
 
 interface Props {
-  addedItems: number;
+  itemsQty: number | undefined;
 }
 
-const ProductDetails = ({ addedItems }: Props) => {
+const ProductDetails = ({ itemsQty }: Props) => {
   return (
     <div className="bottom-2 md:bottom-0 grow">
       <p>
         {product.brand} {product.model}
       </p>
-      <strong className="text-sm">${addedItems * product.price}</strong>
+      <strong className="text-sm">
+        ${itemsQty && itemsQty * product.price}{" "}
+      </strong>
     </div>
   );
 };

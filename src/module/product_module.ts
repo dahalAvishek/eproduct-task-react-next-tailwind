@@ -1,11 +1,12 @@
 import { StaticImageData } from "next/image";
-import productImage from "../../public/product-image.png";
+import productImage1 from "../../public/product-image-1.png";
+import productImage2 from "../../public/product-image-2.png";
 
 export interface Product {
   brand: string;
   model: string;
   price: number;
-  image: StaticImageData;
+  image: StaticImageData[];
 }
 
 const product_list: Product[] = [
@@ -13,7 +14,7 @@ const product_list: Product[] = [
     brand: "JBL",
     model: "90X",
     price: 100,
-    image: productImage,
+    image: [productImage1, productImage2],
   },
 ];
 

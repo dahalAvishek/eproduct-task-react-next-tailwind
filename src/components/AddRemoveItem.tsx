@@ -3,38 +3,42 @@ import React, { Dispatch, SetStateAction } from "react";
 type BackgorundColor = string;
 
 export interface Props {
-  backgroundColor?: string | undefined;
-  addedItems: number;
-  setAddedItems: Dispatch<SetStateAction<number>>;
+  backgroundColor: string | undefined;
+  qty: number | undefined;
+  handleAddToStorage?: () => void;
+  handleAdd: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    quantity: number | undefined
+  ) => void;
+  handleSubstract: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    quantity: number | undefined
+  ) => void;
 }
 
 const AddRemoveItem = ({
   backgroundColor,
-  addedItems,
-  setAddedItems,
+  qty,
+  handleAdd,
+  handleSubstract,
+  handleAddToStorage,
 }: Props) => {
-  const handleAdd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setAddedItems((prevAddedItems) => prevAddedItems + 1);
-  };
-  const handleSubstract = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    addedItems !== 0 && setAddedItems((prevAddedItems) => prevAddedItems - 1);
-  };
   return (
     <div>
       <button
         onClick={(e) => handleSubstract(e)}
         className=" w-5 h-5 text-sm rounded-sm text-center"
         style={{ backgroundColor: backgroundColor }}
+        onMouseOut={handleAddToStorage}
       >
         -
       </button>
-      <p className="inline mx-2">{addedItems}</p>
+      <p className="inline mx-2">{qty && qty}</p>
       <button
         onClick={(e) => handleAdd(e)}
         className=" w-5 h-5 text-sm rounded-sm text-center"
         style={{ backgroundColor: backgroundColor }}
+        onMouseOut={handleAddToStorage}
       >
         +
       </button>

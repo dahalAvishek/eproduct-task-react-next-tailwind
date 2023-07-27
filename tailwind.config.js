@@ -13,7 +13,7 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       gridTemplateColumns: {
-        fullscreen: "minmax(max-content, 100%) 1fr",
+        fullscreen: "minmax(50px, 800px) 1fr",
         datecontainer: "1fr 30px",
       },
     },
